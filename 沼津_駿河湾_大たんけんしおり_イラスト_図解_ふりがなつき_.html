@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>沼津・駿河湾 大たんけんしおり</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background-color: #e0f2fe;
+      background-image: radial-gradient(#bae6fd 2px, transparent 2px);
+      background-size: 24px 24px;
+      line-height: 2;
+    }
+    ruby {
+      ruby-align: center;
+    }
+    rt {
+      font-size: 0.62em;
+      color: #0369a1;
+      font-weight: 700;
+      user-select: none;
+    }
+    .deepsea-gradient rt,
+    .fuji-gradient rt,
+    .spring-gradient rt,
+    .bg-sky-700 rt,
+    .bg-amber-500 rt {
+      color: #fef08a;
+    }
+    body.hide-furigana rt {
+      display: none;
+    }
+    .fuji-gradient {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0284c7 50%, #38bdf8 100%);
+    }
+    .deepsea-gradient {
+      background: linear-gradient(180deg, #0284c7 0%, #1e3a8a 45%, #090d16 100%);
+    }
+    .spring-gradient {
+      background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+    }
+    .card-shadow {
+      box-shadow: 0 8px 0 rgba(30, 58, 138, 0.12);
+    }
+    @media print {
+      body {
+        background: white;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-break {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body class="text-slate-800 pb-16">
+
+  <!-- 上部アクションバー（印刷時は非表示） -->
+  <div class="no-print sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-sky-200 px-4 py-2.5 flex flex-wrap justify-between items-center gap-2 shadow-sm">
+    <div class="flex items-center gap-2">
+      <span class="text-2xl">🐟</span>
+      <span class="font-black text-sky-900 text-sm sm:text-base">
+        <ruby>沼津<rt>ぬまづ</rt></ruby>・<ruby>駿河湾<rt>するがわん</rt></ruby> <ruby>大<rt>だい</rt></ruby>たんけんしおり（<ruby>小<rt>しょう</rt></ruby>4＆<ruby>小<rt>しょう</rt></ruby>1きょうだいスペシャル）
+      </span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="toggleFurigana()" id="furigana-btn" class="text-xs bg-amber-100 hover:bg-amber-200 text-amber-900 font-black py-1.5 px-3 rounded-full border border-amber-300 transition">
+        🔤 ふりがな：ON
+      </button>
+      <button onclick="openResetModal()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-1.5 px-3 rounded-full transition">
+        リセット
+      </button>
+      <button onclick="window.print()" class="text-xs sm:text-sm bg-sky-600 hover:bg-sky-700 text-white font-bold py-1.5 px-4 rounded-full shadow flex items-center gap-1 transition">
+        🖨️ <ruby>印刷<rt>いんさつ</rt></ruby>する
+      </button>
+    </div>
+  </div>
+
+  <!-- リセット確認用カスタムモーダル -->
+  <div id="reset-modal" class="no-print fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border-4 border-sky-200 text-center">
+      <div class="text-4xl mb-2">🧹</div>
+      <h3 class="font-black text-lg text-slate-800 mb-2">きろくをリセットしますか？</h3>
+      <p class="text-xs sm:text-sm text-slate-600 mb-5">チェックしたマークや、かいたメモがすべてきえます。</p>
+      <div class="flex gap-3 justify-center">
+        <button onclick="closeResetModal()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 font-bold text-sm text-slate-700">やめる</button>
+        <button onclick="confirmResetData()" class="px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 font-black text-sm text-white">リセットする</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="max-w-4xl mx-auto p-4 sm:p-6 space-y-8">
+
+    <!-- 表紙ヘッダー -->
+    <header class="fuji-gradient rounded-3xl p-6 sm:p-8 text-white relative overflow-hidden card-shadow border-4 border-white">
+      <div class="relative z-10">
+        <div class="inline-block bg-amber-400 text-slate-900 font-black text-xs sm:text-sm px-3 py-1 rounded-full mb-3 shadow">
+          🎓 <ruby>小学<rt>しょうがく</rt></ruby>4<ruby>年生<rt>ねんせい</rt></ruby>＆1<ruby>年生<rt>ねんせい</rt></ruby>・わくわく大たんけん！
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-snug mb-2 drop-shadow">
+          <ruby>沼津<rt>ぬまづ</rt></ruby>・<ruby>駿河湾<rt>するがわん</rt></ruby><br class="sm:hidden"><ruby>大<rt>だい</rt></ruby>たんけんしおり
+        </h1>
+        <p class="text-sky-100 font-bold text-sm sm:text-lg mb-6">
+          〜<ruby>深海魚<rt>しんかいぎょ</rt></ruby>・エビ<ruby>釣<rt>つ</rt></ruby>り・<ruby>市場<rt>いちば</rt></ruby>・<ruby>富士山<rt>ふじさん</rt></ruby>の<ruby>湧<rt>わ</rt></ruby>き<ruby>水<rt>みず</rt></ruby>のヒミツをちょうさせよ！〜
+        </p>
+
+        <div class="bg-white/95 text-slate-800 rounded-2xl p-4 sm:p-5 max-w-xl backdrop-blur shadow-lg">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <div>
+              <span class="text-xs font-bold text-sky-700 block">📅 たんけんする<ruby>日<rt>ひ</rt></ruby></span>
+              <span class="font-black text-base">2026<ruby>年<rt>ねん</rt></ruby>11<ruby>月<rt>がつ</rt></ruby>22<ruby>日<rt>にち</rt></ruby>(<ruby>日<rt>にち</rt></ruby>)〜23<ruby>日<rt>にち</rt></ruby>(<ruby>月<rt>げつ</rt></ruby>・<ruby>祝<rt>しゅく</rt></ruby>)</span>
+            </div>
+            <div>
+              <span class="text-xs font-bold text-sky-700 block">🏨 おとまりするホテル</span>
+              <span class="font-black text-base"><ruby>静鉄<rt>しずてつ</rt></ruby>ホテルプレジオ<ruby>沼津<rt>ぬまづ</rt></ruby></span>
+            </div>
+          </div>
+          <div class="mt-3 pt-3 border-t border-slate-200">
+            <label class="text-xs font-bold text-sky-700 block mb-1">🕵️‍♂️ たんけん<ruby>隊<rt>たい</rt></ruby>メンバー（なまえをかこう！）</label>
+            <input type="text" id="member-names" placeholder="ここをタップして みんなのなまえを かこう！" class="w-full bg-sky-50 border border-sky-200 rounded-lg px-3 py-1.5 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-400">
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 地理・地形の図解コーナー -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 card-shadow border-2 border-sky-200 print-break">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="bg-sky-600 text-white font-black px-3 py-1 rounded-xl text-sm">よ習コーナー</span>
+        <h2 class="text-xl sm:text-2xl font-black text-sky-900">
+          🗺️ なぜ<ruby>沼津<rt>ぬまづ</rt></ruby>はお<ruby>魚<rt>さかな</rt></ruby>と<ruby>水<rt>みず</rt></ruby>がすごいの？（<ruby>高<rt>たか</rt></ruby>さと<ruby>深<rt>ふか</rt></ruby>さのヒミツ）
+        </h2>
+      </div>
+      
+      <p class="text-sm sm:text-base leading-relaxed mb-6">
+        わたしたちは<strong><ruby>東京都<rt>とうきょうと</rt></ruby>（<ruby>世田谷区<rt>せたがやく</rt></ruby>）</strong>から「<ruby>東名高速道路<rt>とうめいこうそくどうろ</rt></ruby>」で<ruby>静岡県<rt>しずおかけん</rt></ruby>の<strong><ruby>沼津市<rt>ぬまづし</rt></ruby></strong>へいきます。<ruby>沼津<rt>ぬまづ</rt></ruby>には、<ruby>日本一<rt>にほんいち</rt></ruby>たかい<ruby>山<rt>やま</rt></ruby>と、<ruby>日本一<rt>にほんいち</rt></ruby>ふかい<ruby>海<rt>うみ</rt></ruby>がすぐとなりにあそんでいます！
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4">
+          <div class="text-lg font-black text-amber-900 mb-1">🐟 ① アジの<ruby>干物<rt>ひもの</rt></ruby>が<ruby>日本一<rt>にほんいち</rt></ruby>！</div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            お<ruby>魚<rt>さかな</rt></ruby>をひらいて<ruby>塩水<rt>しおみず</rt></ruby>につけ、おひさまと<ruby>風<rt>かぜ</rt></ruby>でかわかす<strong>「<ruby>干物<rt>ひもの</rt></ruby>」をつくる<ruby>量<rt>りょう</rt></ruby>が日本一！</strong>むかしからの<ruby>知恵<rt>ちえ</rt></ruby>がつまっています。
+          </p>
+        </div>
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4">
+          <div class="text-lg font-black text-sky-900 mb-1">🌊 ② <ruby>高低差<rt>こうていさ</rt></ruby> 6,276m！</div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <ruby>富士山<rt>ふじさん</rt></ruby>のてっぺん（3,776m）から<ruby>駿河湾<rt>するがわん</rt></ruby>のそこ（-2,500m）まで、なんと<strong>6,276mもの<ruby>高<rt>たか</rt></ruby>さのちがい</strong>！たくさんのえいようが<ruby>海<rt>うみ</rt></ruby>にながれこみます。
+          </p>
+        </div>
+        <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-4">
+          <div class="text-lg font-black text-emerald-900 mb-1">🏞️ ③ <ruby>狩野川<rt>かのがわ</rt></ruby>と<ruby>柿田川<rt>かきたがわ</rt></ruby></div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            <ruby>沼津港<rt>ぬまづこう</rt></ruby>へそそぐ大きな<strong>「<ruby>狩野川<rt>かのがわ</rt></ruby>」</strong>と、<ruby>富士山<rt>ふじさん</rt></ruby>の<ruby>湧<rt>わ</rt></ruby>き<ruby>水<rt>みず</rt></ruby>でできた<strong>「<ruby>柿田川<rt>かきたがわ</rt></ruby>」</strong>がまちをうるおしています。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 持ち物チェックリスト -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 card-shadow border-2 border-amber-200 print-break">
+      <h2 class="text-lg sm:text-xl font-black text-amber-900 mb-3 flex items-center gap-2">
+        🎒 <ruby>出発前<rt>しゅっぱつまえ</rt></ruby>のもちものチェック！（タップして☑しよう）
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm font-bold">
+        <label class="flex items-center gap-2 bg-amber-50/70 p-3 rounded-xl border border-amber-200 cursor-pointer hover:bg-amber-100 transition">
+          <input type="checkbox" class="save-check w-5 h-5 accent-amber-500" data-id="item-1">
+          <span>🧣 <ruby>上着<rt>うわぎ</rt></ruby>（<ruby>海辺<rt>うみべ</rt></ruby>や<ruby>夕方<rt>ゆうがた</rt></ruby>はさむいよ）</span>
+        </label>
+        <label class="flex items-center gap-2 bg-amber-50/70 p-3 rounded-xl border border-amber-200 cursor-pointer hover:bg-amber-100 transition">
+          <input type="checkbox" class="save-check w-5 h-5 accent-amber-500" data-id="item-2">
+          <span>🧻 ハンカチ・ウェットティッシュ（エビ<ruby>釣<rt>つ</rt></ruby>り<ruby>用<rt>よう</rt></ruby>）</span>
+        </label>
+        <label class="flex items-center gap-2 bg-amber-50/70 p-3 rounded-xl border border-amber-200 cursor-pointer hover:bg-amber-100 transition">
+          <input type="checkbox" class="save-check w-5 h-5 accent-amber-500" data-id="item-3">
+          <span>👟 あるきやすい<ruby>靴<rt>くつ</rt></ruby>（<ruby>公園<rt>こうえん</rt></ruby>＆<ruby>水門<rt>すいもん</rt></ruby>たんけん）</span>
+        </label>
+        <label class="flex items-center gap-2 bg-amber-50/70 p-3 rounded-xl border border-amber-200 cursor-pointer hover:bg-amber-100 transition">
+          <input type="checkbox" class="save-check w-5 h-5 accent-amber-500" data-id="item-4">
+          <span>📖 このたんけんしおり＆えんぴつ</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- 1日目スケジュール -->
+    <section class="space-y-6">
+      <div class="bg-sky-700 text-white px-6 py-4 rounded-2xl shadow flex flex-wrap justify-between items-center gap-2">
+        <h2 class="text-xl sm:text-2xl font-black">
+          🗓️ 1<ruby>日目<rt>にちめ</rt></ruby>：11<ruby>月<rt>がつ</rt></ruby>22<ruby>日<rt>にち</rt></ruby>（<ruby>日<rt>にち</rt></ruby>）エビ<ruby>釣<rt>つ</rt></ruby>り＆<ruby>深海<rt>しんかい</rt></ruby>のナゾちょうさ！
+        </h2>
+        <span class="text-xs sm:text-sm bg-sky-900 px-3 py-1 rounded-full font-bold">
+          <ruby>世田谷<rt>せたがや</rt></ruby> ➔ シュリンプパーク ➔ <ruby>深海水族館<rt>しんかいすいぞくかん</rt></ruby> ➔ びゅうお
+        </span>
+      </div>
+
+      <!-- 9:30 & 11:45 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 print-break">
+        <div class="bg-white rounded-2xl p-5 border-2 border-sky-100 card-shadow">
+          <div class="flex items-center gap-2 text-sky-700 font-black mb-2">
+            <span class="bg-sky-100 px-2.5 py-1 rounded-lg text-sm">09:00</span>
+            <span>🚗 <ruby>世田谷区<rt>せたがやく</rt></ruby>を<ruby>出発<rt>しゅっぱつ</rt></ruby>！（<ruby>東名高速道路<rt>とうめいこうそくどうろ</rt></ruby>）</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-2">
+            <ruby>東京<rt>とうきょう</rt></ruby>ICから<ruby>東名高速<rt>とうめいこうそく</rt></ruby>へ！<ruby>工事渋滞<rt>こうじじゅうたい</rt></ruby>（大井松田〜足柄）に注意しつつ、みえてくる大きな<ruby>富士山<rt>ふじさん</rt></ruby>をさがそう！
+          </p>
+          <label class="flex items-center gap-2 text-xs sm:text-sm font-bold bg-sky-50 p-2.5 rounded-xl cursor-pointer">
+            <input type="checkbox" class="save-check w-4 h-4 accent-sky-600" data-id="m-fuji">
+            <span>🗻 <ruby>車<rt>くるま</rt></ruby>からさいしょの<ruby>富士山<rt>ふじさん</rt></ruby>をみつけた！</span>
+          </label>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border-2 border-sky-100 card-shadow">
+          <div class="flex items-center gap-2 text-sky-700 font-black mb-2">
+            <span class="bg-sky-100 px-2.5 py-1 rounded-lg text-sm">11:45</span>
+            <span>🍣 お<ruby>昼<rt>ひる</rt></ruby>ごはん（<ruby>沼津<rt>ぬまづ</rt></ruby>のお<ruby>魚<rt>さかな</rt></ruby>ランチ）</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
+            「<ruby>山正<rt>やましょう</rt></ruby> <ruby>沼津南店<rt>ぬまづみなみてん</rt></ruby>」または「<ruby>弥次喜多<rt>やじきた</rt></ruby> <ruby>下香貫店<rt>しもかぬきてん</rt></ruby>」へ！
+          </p>
+          <input type="text" id="lunch-memo" placeholder="おひるに たべた おさかなを メモしよう！" class="w-full text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 font-bold">
+        </div>
+      </div>
+
+      <!-- 13:00 シュリンプパーク -->
+      <div class="bg-white rounded-3xl p-6 border-4 border-orange-200 card-shadow print-break">
+        <div class="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center border-b border-orange-100 pb-4 mb-4">
+          <div>
+            <span class="bg-orange-500 text-white font-black px-3 py-1 rounded-lg text-sm inline-block mb-1">13:00〜14:30（よやくずみ！）</span>
+            <h3 class="text-xl sm:text-2xl font-black text-orange-950">
+              🦐 <ruby>沼津<rt>ぬまづ</rt></ruby>シュリンプパークで「オニテナガエビ<ruby>釣<rt>つ</rt></ruby>り＆<ruby>塩焼<rt>しおや</rt></ruby>き」
+            </h3>
+          </div>
+        </div>
+
+        <div class="bg-orange-50 rounded-2xl p-4 mb-4 border border-orange-200 text-xs sm:text-sm leading-relaxed">
+          <strong class="text-orange-900 block mb-1">
+            💡 <ruby>社会科<rt>しゃかいか</rt></ruby>のヒミツ：なぜふるい<ruby>干物工場<rt>ひものこうじょう</rt></ruby>でエビをそだてているの？（<ruby>陸上養殖<rt>りくじょうようしょく</rt></ruby>）
+          </strong>
+          つかわなくなった<ruby>干物工場<rt>ひものこうじょう</rt></ruby>をつくりかえて、<ruby>建物<rt>たてもの</rt></ruby>のなかで<ruby>水温<rt>すいおん</rt></ruby>をまもりながらエビをそだてる<strong>「<ruby>陸上養殖<rt>りくじょうようしょく</rt></ruby>」</strong>をおこなっています。お<ruby>天気<rt>てんき</rt></ruby>に関係なくあんぜんなエビをそだてるあたらしい<ruby>水産業<rt>すいさんぎょう</rt></ruby>です！
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-50 p-4 rounded-2xl">
+          <div class="flex items-center gap-3">
+            <span class="font-black text-sm sm:text-base text-slate-700">🎣 <ruby>家族<rt>かぞく</rt></ruby>みんなで<ruby>釣<rt>つ</rt></ruby>れたエビの<ruby>数<rt>かず</rt></ruby>：</span>
+            <div class="flex items-center gap-2">
+              <button onclick="changeShrimp(-1)" class="no-print w-8 h-8 rounded-full bg-orange-200 hover:bg-orange-300 font-black text-orange-900">−</button>
+              <input type="number" id="shrimp-count" value="0" min="0" class="w-16 text-center font-black text-xl bg-white border-2 border-orange-300 rounded-xl py-1">
+              <button onclick="changeShrimp(1)" class="no-print w-8 h-8 rounded-full bg-orange-500 hover:bg-orange-600 font-black text-white">＋</button>
+              <span class="font-black">ひき！</span>
+            </div>
+          </div>
+          <label class="flex items-center gap-2 text-xs sm:text-sm font-bold cursor-pointer">
+            <input type="checkbox" class="save-check w-5 h-5 accent-orange-500" data-id="m-shrimp">
+            <span>🔥 <ruby>釣<rt>つ</rt></ruby>ったエビをそのばで<ruby>塩焼<rt>しおや</rt></ruby>きにして<ruby>食<rt>た</rt></ruby>べた！</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 14:40 沼津港深海水族館 -->
+      <div class="deepsea-gradient text-white rounded-3xl p-6 sm:p-8 card-shadow border-4 border-sky-400 print-break">
+        <div class="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center border-b border-sky-700 pb-4 mb-5">
+          <div>
+            <span class="bg-sky-400 text-slate-950 font-black px-3 py-1 rounded-lg text-sm inline-block mb-1">
+              14:40〜16:20
+            </span>
+            <h3 class="text-xl sm:text-2xl font-black">
+              🐟 <ruby>沼津港深海水族館<rt>ぬまづこうしんかいすいぞくかん</rt></ruby>（シーラカンス・ミュージアム）
+            </h3>
+          </div>
+        </div>
+
+        <p class="text-xs sm:text-sm text-sky-100 leading-relaxed mb-5">
+          おひさまの<ruby>光<rt>ひかり</rt></ruby>がとどかない<strong><ruby>水深<rt>すいしん</rt></ruby>200mより<ruby>深<rt>ふか</rt></ruby>い<ruby>海<rt>うみ</rt></ruby>「<ruby>深海<rt>しんかい</rt></ruby>」</strong>のせかい！「<ruby>冷凍<rt>れいとう</rt></ruby>シーラカンス」やへんてこな<ruby>深海生物<rt>shinkaiseibutsu</rt></ruby>をさがそう！
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-slate-900/90 border-2 border-sky-500/60 rounded-2xl p-4 flex gap-3 items-center">
+            <div class="text-xs">
+              <div class="font-black text-sky-300 text-sm mb-0.5">① <ruby>冷凍<rt>れいとう</rt></ruby>シーラカンス</div>
+              <p class="text-slate-300 mb-2">3<ruby>億<rt>おく</rt></ruby>5,000<ruby>万年前<rt>まんねんまえ</rt></ruby>からすがたがかわらないお<ruby>魚<rt>さかな</rt></ruby>。</p>
+              <label class="inline-flex items-center gap-1.5 font-bold text-amber-300 cursor-pointer">
+                <input type="checkbox" class="save-check w-4 h-4 accent-amber-400" data-id="fish-1">
+                <span>みつけた！</span>
+              </label>
+            </div>
+          </div>
+          <div class="bg-slate-900/90 border-2 border-sky-500/60 rounded-2xl p-4 flex gap-3 items-center">
+            <div class="text-xs">
+              <div class="font-black text-rose-300 text-sm mb-0.5">② タカアシガニ</div>
+              <p class="text-slate-300 mb-2"><ruby>駿河湾<rt>するがわん</rt></ruby>の<ruby>深海<rt>しんかい</rt></ruby>にすむ<ruby>世界一<rt>せかいいち</rt></ruby>大きなカニ！</p>
+              <label class="inline-flex items-center gap-1.5 font-bold text-amber-300 cursor-pointer">
+                <input type="checkbox" class="save-check w-4 h-4 accent-amber-400" data-id="fish-2">
+                <span>みつけた！</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 16:30 大型展望水門びゅうお -->
+      <div class="bg-white rounded-3xl p-6 border-4 border-sky-300 card-shadow print-break">
+        <div class="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center mb-4">
+          <div>
+            <span class="bg-sky-600 text-white font-black px-3 py-1 rounded-lg text-sm inline-block mb-1">
+              16:30〜17:00
+            </span>
+            <h3 class="text-xl sm:text-2xl font-black text-sky-950">
+              🌊 <ruby>沼津港大型展望水門<rt>ぬまづこうおおがたてんぼうすいもん</rt></ruby>「びゅうお」
+            </h3>
+          </div>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-3">
+          <strong>【<ruby>防災<rt>ぼうさい</rt></ruby>のしくみ】</strong> <ruby>地震<rt>じしん</rt></ruby>のときの「<ruby>津波<rt>つなみ</rt></ruby>」からまちをまもるおもさ406トンのとびら！てんぼうしつから<ruby>夕日<rt>ゆうひ</rt></ruby>をみよう。
+        </p>
+        <label class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold bg-sky-50 px-4 py-2 rounded-xl border border-sky-200 cursor-pointer">
+          <input type="checkbox" class="save-check w-4 h-4 accent-sky-600" data-id="m-byuo">
+          <span>🌅 <ruby>高<rt>たか</rt></ruby>さ30mから<ruby>夕日<rt>ゆうひ</rt></ruby>と<ruby>富士山<rt>ふじさん</rt></ruby>のシルエットをみた！</span>
+        </label>
+      </div>
+
+      <!-- 17:15 ホテル＆夕食 -->
+      <div class="bg-white rounded-2xl p-5 border-2 border-sky-100 card-shadow print-break">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2 text-sky-900 font-black">
+            <span class="bg-sky-100 text-sky-800 px-2.5 py-1 rounded-lg text-sm">17:15</span>
+            <span>🏨 ホテルにチェックイン ＆ 18:00 <ruby>沼津駅前<rt>ぬまづえきまえ</rt></ruby>でよるごはん！</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2日目スケジュール（魚市場INO・柿田川公園） -->
+    <section class="space-y-6 print-break">
+      <div class="spring-gradient text-white px-6 py-4 rounded-2xl shadow flex flex-wrap justify-between items-center gap-2">
+        <h2 class="text-xl sm:text-2xl font-black">
+          🗓️ 2<ruby>日目<rt>にちめ</rt></ruby>：11<ruby>月<rt>がつ</rt></ruby>23<ruby>日<rt>にち</rt></ruby>（<ruby>月<rt>げつ</rt></ruby>・<ruby>祝<rt>しゅく</rt></ruby>）<ruby>魚市場<rt>うおいちば</rt></ruby>＆<ruby>湧<rt>わ</rt></ruby>き<ruby>水<rt>みず</rt></ruby>たんけん！
+        </h2>
+        <span class="text-xs sm:text-sm bg-emerald-950/60 px-3 py-1 rounded-full font-bold">
+          08:15 魚市場INO ➔ 09:00 柿田川公園 ➔ 10:30 東名高速で東京へ！
+        </span>
+      </div>
+
+      <!-- 8:15 魚市場INO -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-teal-300 card-shadow">
+        <div class="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center border-b border-teal-100 pb-4 mb-4">
+          <div>
+            <span class="bg-teal-600 text-white font-black px-3 py-1 rounded-lg text-sm inline-block mb-1">
+              08:15〜09:00（朝の<ruby>沼津港<rt>ぬまづこう</rt></ruby>をあるこう！）
+            </span>
+            <h3 class="text-xl sm:text-2xl font-black text-teal-950">
+              🏢 2日目は「<ruby>沼津魚市場<rt>ぬまづうおいちば</rt></ruby> INO（イーノ）」＆港さんぽ
+            </h3>
+          </div>
+        </div>
+
+        <div class="bg-teal-50 rounded-2xl p-4 mb-4 border border-teal-200 text-xs sm:text-sm leading-relaxed">
+          <strong class="text-teal-900 block mb-1">
+            💡 <ruby>社会科<rt>しゃかいか</rt></ruby>（<ruby>水産業<rt>すいさんぎょう</rt></ruby>）：<ruby>市場<rt>いちば</rt></ruby>のまわりはどんなようすかな？
+          </strong>
+          <ruby>漁師<rt>りょうし</rt></ruby>さんがとってきたお<ruby>魚<rt>さかな</rt></ruby>を全国にとどける中心の「INO（イーノ）」のまわりをあるいてみよう！2<ruby>階<rt>かい</rt></ruby>の通路からせりばを見たり、朝からひらくお店や干物屋さんをのぞいてみよう。
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm font-bold">
+          <label class="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200 cursor-pointer">
+            <input type="checkbox" class="save-check w-4 h-4 accent-teal-600" data-id="ino-1">
+            <span>🐟 2<ruby>階<rt>かい</rt></ruby>の見学者通路からお<ruby>魚<rt>さかな</rt></ruby>のパネルやせりばをみた！</span>
+          </label>
+          <label class="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200 cursor-pointer">
+            <input type="checkbox" class="save-check w-4 h-4 accent-teal-600" data-id="ino-2">
+            <span>🛒 朝の港のひものやさんやお店のようすをみた！</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 9:00 柿田川公園 -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-emerald-300 card-shadow">
+        <div class="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center border-b border-emerald-100 pb-4 mb-4">
+          <div>
+            <span class="bg-emerald-600 text-white font-black px-3 py-1 rounded-lg text-sm inline-block mb-1">
+              09:00〜10:15（<ruby>車<rt>くるま</rt></ruby>で<ruby>約<rt>やく</rt></ruby>20<ruby>分<rt>ふん</rt></ruby>）
+            </span>
+            <h3 class="text-xl sm:text-2xl font-black text-emerald-950">
+              💧 「<ruby>柿田川<rt>かきたがわ</rt></ruby><ruby>公園<rt>こうえん</rt></ruby>」で<ruby>富士山<rt>ふじさん</rt></ruby>の湧き水をみる
+            </h3>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5 text-xs sm:text-sm">
+          <div class="bg-emerald-50 p-3.5 rounded-2xl border border-emerald-200">
+            <strong class="text-emerald-900 block mb-1">① 日本一みじかい川！</strong>
+            ながさがたった1.2kmしかないのに、国がまもるたいせつな「一級河川」です。
+          </div>
+          <div class="bg-emerald-50 p-3.5 rounded-2xl border border-emerald-200">
+            <strong class="text-emerald-900 block mb-1">② 約30年前の富士山の水！</strong>
+            富士山の雪や雨が、約30年かけて地面をとおってここでボコボコとわきでています。
+          </div>
+          <div class="bg-emerald-50 p-3.5 rounded-2xl border border-emerald-200">
+            <strong class="text-emerald-900 block mb-1">③ 1日100万トンの湧き水！</strong>
+            いつもつめたさ約15℃のきれいな水がわきでて、みんなの水道水になっています。
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm font-bold">
+          <label class="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200 cursor-pointer">
+            <input type="checkbox" class="save-check w-4 h-4 accent-emerald-600" data-id="kaki-1">
+            <span>👀 第1展望台で川がうまれる場所をみた！</span>
+          </label>
+          <label class="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200 cursor-pointer">
+            <input type="checkbox" class="save-check w-4 h-4 accent-emerald-600" data-id="kaki-2">
+            <span>🔵 第2展望台で青くわきでる「湧き間」をみた！</span>
+          </label>
+          <label class="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200 cursor-pointer">
+            <input type="checkbox" class="save-check w-4 h-4 accent-emerald-600" data-id="kaki-3">
+            <span>🍦 お豆腐アイスをあじわった！</span>
+          </label>
+        </div>
+
+        <div class="mt-4 pt-4 border-t border-emerald-100 flex flex-wrap justify-between items-center text-xs sm:text-sm font-black text-emerald-900">
+          <span>🚗 10:15 柿田川公園を出発（東名高速へ！）</span>
+          <span>🏠 12:30〜13:00ごろ 世田谷のおうちにとうちゃく！</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- クイズ -->
+    <section class="bg-amber-50 rounded-3xl p-6 sm:p-8 border-4 border-amber-300 card-shadow print-break">
+      <h2 class="text-xl sm:text-2xl font-black text-amber-950 mb-2">
+        ✏️ かえりの車の中でちょうせん！たんけんまとめクイズ
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-white p-4 rounded-2xl border-2 border-amber-200">
+          <div class="font-black text-sm sm:text-base mb-2">
+            Q1. 2日目の朝に立ち寄った、沼津港の魚の流通の中心となる市場の名前は？
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="checkQuiz(this, true)" class="px-3 py-1.5 rounded-xl bg-slate-100 font-bold text-xs">沼津魚市場 INO（イーノ）</button>
+            <button onclick="checkQuiz(this, false)" class="px-3 py-1.5 rounded-xl bg-slate-100 font-bold text-xs">沼津エビ市場</button>
+          </div>
+          <p class="quiz-result text-xs font-black mt-2 hidden"></p>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border-2 border-amber-200">
+          <div class="font-black text-sm sm:text-base mb-2">
+            Q2. 日本一みじかい一級河川「柿田川」に湧き出る水は、どこの山の水？
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="checkQuiz(this, false)" class="px-3 py-1.5 rounded-xl bg-slate-100 font-bold text-xs">箱根山</button>
+            <button onclick="checkQuiz(this, true)" class="px-3 py-1.5 rounded-xl bg-slate-100 font-bold text-xs">富士山</button>
+          </div>
+          <p class="quiz-result text-xs font-black mt-2 hidden"></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const textIds = ['member-names', 'lunch-memo', 'shrimp-count'];
+    window.addEventListener('DOMContentLoaded', () => {
+      textIds.forEach(id => {
+        const el = document.getElementById(id);
+        const saved = localStorage.getItem('numazu_' + id);
+        if (el && saved !== null) el.value = saved;
+        if (el) el.addEventListener('input', () => localStorage.setItem('numazu_' + id, el.value));
+      });
+      document.querySelectorAll('.save-check').forEach(chk => {
+        const key = 'numazu_chk_' + chk.dataset.id;
+        chk.checked = localStorage.getItem(key) === 'true';
+        chk.addEventListener('change', () => localStorage.setItem(key, chk.checked));
+      });
+      if (localStorage.getItem('numazu_hide_furigana') === 'true') {
+        document.body.classList.add('hide-furigana');
+        const btn = document.getElementById('furigana-btn');
+        if (btn) btn.textContent = '🔤 ふりがな：OFF';
+      }
+    });
+
+    function toggleFurigana() {
+      const isHidden = document.body.classList.toggle('hide-furigana');
+      localStorage.setItem('numazu_hide_furigana', isHidden);
+      const btn = document.getElementById('furigana-btn');
+      if (btn) btn.textContent = isHidden ? '🔤 ふりがな：OFF' : '🔤 ふりがな：ON';
+    }
+
+    function changeShrimp(delta) {
+      const input = document.getElementById('shrimp-count');
+      let val = parseInt(input.value || '0', 10) + delta;
+      if (val < 0) val = 0;
+      input.value = val;
+      localStorage.setItem('numazu_shrimp-count', val);
+    }
+
+    function checkQuiz(btn, isCorrect) {
+      const parent = btn.parentElement.parentElement;
+      const resultEl = parent.querySelector('.quiz-result');
+      resultEl.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+      if (isCorrect) {
+        resultEl.textContent = '⭕ 大せいかい！さすがぬまづマスター！';
+        resultEl.classList.add('text-emerald-600');
+      } else {
+        resultEl.textContent = '❌ おしい！もういちど考えてみよう！';
+        resultEl.classList.add('text-rose-600');
+      }
+    }
+
+    function openResetModal() {
+      document.getElementById('reset-modal').classList.remove('hidden');
+      document.getElementById('reset-modal').classList.add('flex');
+    }
+    function closeResetModal() {
+      document.getElementById('reset-modal').classList.add('hidden');
+      document.getElementById('reset-modal').classList.remove('flex');
+    }
+    function confirmResetData() {
+      Object.keys(localStorage).forEach(k => { if (k.startsWith('numazu_')) localStorage.removeItem(k); });
+      location.reload();
+    }
+  </script>
+</body>
+</html>
